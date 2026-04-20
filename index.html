@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)https://pierregrigorsa-create.github.io/whatnumbercomesbefore/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⭐ What Number Comes Before?</title>
+<link href="./⭐ What Number Comes Before__files/css2" rel="stylesheet">
+<style>
+:root{
+  --teal:#00B4A6;--blue:#3D9BE9;--yellow:#FFD93D;
+  --green:#52C87A;--pink:#FF6B9D;--purple:#9B72CF;
+  --card:rgba(255,255,255,0.97);
+  --shadow:0 8px 32px rgba(0,180,166,0.16);
+  --radius:22px;
+}
+/* ── PASSWORD SCREEN ── */
+#pw-screen{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#00B4A6,#3D9BE9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;}
+#pw-screen.hidden{display:none;}
+.pw-logo{font-family:'Fredoka One',cursive;font-size:clamp(1.6em,6vw,2.8em);color:white;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.18);}
+.pw-school{font-size:clamp(1em,3.5vw,1.5em);color:rgba(255,255,255,.92);font-weight:800;text-align:center;margin-top:-10px;}
+.pw-box{background:white;border-radius:22px;padding:28px 24px;width:min(92vw,420px);box-shadow:0 16px 50px rgba(0,0,0,.26);display:flex;flex-direction:column;align-items:center;gap:16px;}
+.pw-box h2{font-family:'Fredoka One',cursive;font-size:1.35em;color:#00B4A6;text-align:center;}
+.pw-box p{font-size:.9em;color:#777;font-weight:600;text-align:center;line-height:1.5;}
+#pw-input{width:100%;padding:14px 18px;border:3px solid #00B4A6;border-radius:14px;font-family:'Fredoka One',cursive;font-size:1.4em;text-align:center;letter-spacing:4px;outline:none;transition:border-color .2s;color:#004a44;}
+#pw-input:focus{border-color:#3D9BE9;}
+#pw-input.wrong{border-color:#f44336;animation:shake .4s ease-in-out;}
+#pw-btn{background:linear-gradient(135deg,#00B4A6,#3D9BE9);color:white;border:none;border-radius:50px;padding:13px 40px;font-family:'Fredoka One',cursive;font-size:1.2em;cursor:pointer;width:100%;box-shadow:0 4px 16px rgba(0,180,166,.4);transition:transform .15s;}
+#pw-btn:hover{transform:scale(1.04);}
+#pw-error{color:#E74C3C;font-weight:800;font-size:.95em;text-align:center;display:none;}
+.pw-footer{font-size:.78em;color:rgba(255,255,255,.8);text-align:center;}
+#brand-badge{background:rgba(255,255,255,.22);border-radius:50px;padding:4px 14px;font-size:clamp(.7em,2vw,.85em);color:white;font-weight:800;white-space:nowrap;flex-shrink:0;border:1.5px solid rgba(255,255,255,.4);}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(150deg,#E8FFF8 0%,#E8F0FF 50%,#FFF8E8 100%);min-height:100vh;padding:14px}
+#app{max-width:960px;margin:0 auto}
+#header{background:linear-gradient(135deg,#00B4A6,#3D9BE9);border-radius:var(--radius);padding:14px 20px;margin-bottom:14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 24px rgba(0,180,166,.4);color:white}
+#header h1{font-family:'Fredoka One',cursive;font-size:clamp(1.05em,3.6vw,1.7em);flex:1;text-shadow:2px 2px 0 rgba(0,0,0,.12)}
+#progressWrap{height:9px;background:rgba(255,255,255,.3);border-radius:50px;margin-top:6px;overflow:hidden}
+#progressBar{height:100%;background:white;border-radius:50px;transition:width .6s ease;width:0%}
+.ctrl-btn{background:white;border:none;border-radius:50px;padding:9px 15px;font-family:'Fredoka One',cursive;font-size:.92em;cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,.15);transition:transform .15s}
+.ctrl-btn:hover{transform:scale(1.07)}
+#backBtn{color:var(--purple)}
+#pauseBtn{color:var(--teal)}
+#pauseBtn.paused{background:var(--yellow);color:#333}
+#mainContent{display:grid;grid-template-columns:215px 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:600px){#mainContent{grid-template-columns:1fr}}
+#numbyCard{background:var(--card);border-radius:var(--radius);padding:10px 8px 12px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;position:sticky;top:14px}
+#numbyWrap{position:relative;width:100%;max-width:200px}
+#numbySvg{width:100%;overflow:visible}
+
+/* ── ARM ANIMATIONS ── */
+#leftArm,#rightArm{transform-box:fill-box;transform-origin:top center;transition:transform .7s cubic-bezier(0.34,1.56,0.64,1)}
+#numbySvg.point-head #leftArm,
+#numbySvg.point-talk #leftArm{transform:translateY(-62px) rotate(142deg)}
+#numbySvg.celebrate #leftArm{transform:rotate(148deg)}
+#numbySvg.celebrate #rightArm{transform:rotate(-148deg)}
+@keyframes waveArm{0%,100%{transform:rotate(0)}30%{transform:rotate(-28deg)}60%{transform:rotate(-8deg)}80%{transform:rotate(-28deg)}}
+#numbySvg.waving #rightArm{animation:waveArm 1.1s ease-in-out 2}
+#browL,#browR{transition:transform .3s ease}
+#numbySvg.excited #browL,#numbySvg.excited #browR{transform:translateY(-4px)}
+#numbyBody{transform-origin:center bottom}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+#numbySvg.excited #numbyBody{animation:bounce .5s ease-in-out 3}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 6px rgba(0,180,166,.6))}50%{filter:drop-shadow(0 0 18px rgba(0,180,166,1))}}
+#numbySvg.point-head #numbyHead,#numbySvg.point-talk #numbyHead{animation:glow 1s ease-in-out infinite}
+#mouthOpen{display:none}
+#headBanner{display:none;margin-top:8px;width:100%;background:linear-gradient(135deg,#00B4A6,#3D9BE9);color:white;border-radius:12px;padding:8px 10px;font-family:'Fredoka One',cursive;font-size:.88em;text-align:center;box-shadow:0 3px 10px rgba(0,180,166,.35);animation:bannerPop .4s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes bannerPop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+#numbyName{font-family:'Fredoka One',cursive;font-size:1.05em;color:var(--teal);margin-top:9px}
+#numbyTitle{font-size:.76em;font-weight:700;color:#999;margin-top:2px}
+#bubbleOverlay{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:var(--radius)}
+.bubble-dot{position:absolute;border-radius:50%;animation:bubbleRise 1.5s ease-out forwards;opacity:0}
+@keyframes bubbleRise{0%{opacity:0;transform:translateY(0) scale(0)}20%{opacity:.9;transform:translateY(-14px) scale(1)}100%{opacity:0;transform:translateY(-110px) scale(.3)}}
+
+#lessonPanel{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+#speechBubble{background:linear-gradient(135deg,#E8FFFB,#D0F5F0);border:3px solid var(--teal);border-radius:20px;padding:14px 20px;font-weight:700;font-size:1.06em;color:#003d38;min-height:72px;display:flex;align-items:center;margin-bottom:18px;position:relative;line-height:1.55}
+#speechBubble::before{content:'🗣️';position:absolute;top:-18px;left:16px;font-size:1.3em}
+#numberDisplay{min-height:116px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin:8px 0 16px}
+
+/* Number cards */
+.num-card{font-family:'Fredoka One',cursive;font-size:3.8em;width:108px;height:108px;border-radius:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 18px rgba(0,0,0,.14);flex-shrink:0}
+.num-card.given{background:linear-gradient(135deg,#D0F5F0,#A8EDE6);border:4px solid var(--teal);color:#004a44;animation:cardPop .5s cubic-bezier(0.34,1.56,0.64,1)}
+.num-card.answer{background:linear-gradient(135deg,#D8F5E4,#B8EDCC);border:4px solid var(--green);color:#1a6a38}
+.num-card.blank{background:white;border:4px dashed var(--blue);color:var(--blue);font-size:2em;animation:cardPop .5s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes cardPop{0%{transform:scale(0) rotate(-8deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes dragReveal{0%{letter-spacing:-4px;opacity:.3;transform:scale(.7) rotate(-6deg)}55%{letter-spacing:14px;opacity:.9;transform:scale(1.12) rotate(2deg)}100%{letter-spacing:0;opacity:1;transform:scale(1) rotate(0)}}
+.num-card.answer.revealing{animation:dragReveal 1.1s cubic-bezier(0.34,1.56,0.64,1) forwards !important}
+
+/* Back arrow — points LEFT for "before" */
+.before-arrow{font-size:2.4em;color:var(--teal);flex-shrink:0}
+#parentNote{display:none;background:#E8FFFB;border-left:5px solid var(--teal);border-radius:12px;padding:11px 16px;font-size:.89em;color:#004a44;margin-top:12px;line-height:1.5}
+
+/* ── ACTIVITY ── */
+#activityPanel{display:none;background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:14px}
+.act-title{font-family:'Fredoka One',cursive;font-size:1.55em;color:var(--teal);text-align:center;margin-bottom:20px}
+.act-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+@media(max-width:480px){.act-grid{grid-template-columns:1fr}}
+.act-box{background:linear-gradient(135deg,#E8FFFB,#D0F5EE);border:3px solid var(--teal);border-radius:18px;padding:22px 14px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.act-row{display:flex;align-items:center;justify-content:center;gap:12px}
+.act-num{font-family:'Fredoka One',cursive;font-size:2.4em;width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,#D0F5F0,#A8EDE6);border:3.5px solid var(--teal);color:#004a44;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.act-arrow{font-size:1.8em;color:var(--teal)}
+.act-input{font-family:'Fredoka One',cursive;font-size:2.4em;color:var(--teal);background:white;border:3.5px solid var(--teal);border-radius:16px;width:72px;height:72px;text-align:center;outline:none;-moz-appearance:textfield;flex-shrink:0;transition:border-color .2s}
+.act-input::-webkit-inner-spin-button,.act-input::-webkit-outer-spin-button{-webkit-appearance:none}
+.act-input:focus{border-color:var(--purple);box-shadow:0 0 0 4px rgba(155,114,207,.2)}
+.act-input.wrong{border-color:#f44336;background:#FFF0F0;animation:shake .45s}
+.act-input.correct{border-color:var(--green);background:#F0FFF5;color:#1a6a38}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.act-hint{font-size:.82em;color:#666;font-weight:700;text-align:center;min-height:18px}
+.check-btn{background:linear-gradient(135deg,var(--teal),#008a80);color:white;border:none;border-radius:50px;padding:14px 40px;font-family:'Fredoka One',cursive;font-size:1.2em;cursor:pointer;display:block;margin:0 auto;box-shadow:0 5px 18px rgba(0,180,166,.38);transition:transform .15s}
+.check-btn:hover{transform:scale(1.05)}
+.act-parent-note{background:#E8FFFB;border-left:5px solid var(--teal);border-radius:12px;padding:11px 15px;font-size:.89em;color:#004a44;margin-top:16px;line-height:1.5}
+
+/* ── CONFETTI ── */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:999}
+.cp{position:absolute;border-radius:2px;animation:fall 3s ease-in forwards}
+@keyframes fall{0%{opacity:1;transform:translateY(-20px) rotate(0)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
+
+/* ── FEEDBACK FORM ── */
+#akili-fb-section{
+  display:none;width:100%;
+  background:linear-gradient(155deg,#E8FFFB,#D0F5F0);
+  border-radius:22px;padding:26px 24px 22px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.14);
+  margin-top:14px;font-family:'Nunito',sans-serif;
+}
+#akili-fb-section h2{font-family:'Fredoka One',cursive;font-size:1.55em;color:#00B4A6;margin-bottom:4px;}
+#akili-fb-section .asub{font-size:13px;color:#555;font-weight:600;margin-bottom:18px;}
+.afrow{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+@media(max-width:500px){.afrow{grid-template-columns:1fr;}}
+.afg{margin-bottom:15px;}
+.afg label{display:block;font-weight:800;color:#333;margin-bottom:6px;font-size:.9em;}
+.afg input,.afg select,.afg textarea{
+  width:100%;padding:10px 13px;border:2px solid #b2e0da;border-radius:11px;
+  font-family:'Nunito',sans-serif;font-size:.95em;
+  outline:none;background:white;transition:border-color .2s;
+}
+.afg input:focus,.afg select:focus,.afg textarea:focus{border-color:#00B4A6;}
+.afg textarea{min-height:72px;resize:vertical;}
+.afstars{display:flex;gap:8px;font-size:1.85em;cursor:pointer;margin-top:3px;}
+.afstar{color:#ddd;transition:color .15s,transform .15s;user-select:none;}
+.afstar:hover,.afstar.on{color:#FFD700;}
+.afstar:hover{transform:scale(1.2);}
+.afsub-btn{
+  background:linear-gradient(135deg,#00B4A6,#3D9BE9);
+  color:white;border:none;border-radius:50px;
+  padding:14px 48px;font-family:'Fredoka One',cursive;font-size:1.2em;
+  cursor:pointer;display:block;margin:22px auto 0;
+  box-shadow:0 6px 20px rgba(0,0,0,0.18);transition:transform .15s;
+}
+.afsub-btn:hover{transform:scale(1.05);}
+</style>
+<style>.driver-active .driver-overlay,.driver-active *{pointer-events:none}.driver-active .driver-active-element,.driver-active .driver-active-element *,.driver-popover,.driver-popover *{pointer-events:auto}@keyframes animate-fade-in{0%{opacity:0}to{opacity:1}}.driver-fade .driver-overlay{animation:animate-fade-in .2s ease-in-out}.driver-fade .driver-popover{animation:animate-fade-in .2s}.driver-popover{all:unset;box-sizing:border-box;color:#2d2d2d;margin:0;padding:15px;border-radius:5px;min-width:250px;max-width:300px;box-shadow:0 1px 10px rgba(0,0,0,.4);z-index:1000000000;position:fixed;top:0;right:0;background-color:#fff}.driver-popover *{font-family:Helvetica Neue,Inter,ui-sans-serif,"Apple Color Emoji",Helvetica,Arial,sans-serif}.driver-popover-title{font:19px/normal sans-serif;font-weight:700;display:block;position:relative;line-height:1.5;zoom:1;margin:0}.driver-popover-close-btn{all:unset;position:absolute;top:0;right:0;width:32px;height:28px;cursor:pointer;font-size:18px;font-weight:500;color:#d2d2d2;z-index:1;text-align:center;transition:color;transition-duration:.2s}.driver-popover-close-btn:hover,.driver-popover-close-btn:focus{color:#2d2d2d}.driver-popover-title[style*=block]+.driver-popover-description{margin-top:5px}.driver-popover-description{margin-bottom:0;font:14px/normal sans-serif;line-height:1.5;font-weight:400;zoom:1}.driver-popover-footer{margin-top:15px;text-align:right;zoom:1;display:flex;align-items:center;justify-content:space-between}.driver-popover-progress-text{font-size:13px;font-weight:400;color:#727272;zoom:1}.driver-popover-footer button{all:unset;display:inline-block;box-sizing:border-box;padding:3px 7px;text-decoration:none;text-shadow:1px 1px 0 #fff;background-color:#fff;color:#2d2d2d;font:12px/normal sans-serif;cursor:pointer;outline:0;zoom:1;line-height:1.3;border:1px solid #ccc;border-radius:3px}.driver-popover-footer .driver-popover-btn-disabled{opacity:.5;pointer-events:none}:not(body):has(>.driver-active-element){overflow:hidden !important}.driver-no-interaction,.driver-no-interaction *{pointer-events:none !important}.driver-popover-footer button:hover,.driver-popover-footer button:focus{background-color:#f7f7f7}.driver-popover-navigation-btns{display:flex;flex-grow:1;justify-content:flex-end}.driver-popover-navigation-btns button+button{margin-left:4px}.driver-popover-arrow{content:"";position:absolute;border:5px solid #fff}.driver-popover-arrow-side-over{display:none}.driver-popover-arrow-side-left{left:100%;border-right-color:transparent;border-bottom-color:transparent;border-top-color:transparent}.driver-popover-arrow-side-right{right:100%;border-left-color:transparent;border-bottom-color:transparent;border-top-color:transparent}.driver-popover-arrow-side-top{top:100%;border-right-color:transparent;border-bottom-color:transparent;border-left-color:transparent}.driver-popover-arrow-side-bottom{bottom:100%;border-left-color:transparent;border-top-color:transparent;border-right-color:transparent}.driver-popover-arrow-side-center{display:none}.driver-popover-arrow-side-left.driver-popover-arrow-align-start,.driver-popover-arrow-side-right.driver-popover-arrow-align-start{top:15px}.driver-popover-arrow-side-top.driver-popover-arrow-align-start,.driver-popover-arrow-side-bottom.driver-popover-arrow-align-start{left:15px}.driver-popover-arrow-align-end.driver-popover-arrow-side-left,.driver-popover-arrow-align-end.driver-popover-arrow-side-right{bottom:15px}.driver-popover-arrow-side-top.driver-popover-arrow-align-end,.driver-popover-arrow-side-bottom.driver-popover-arrow-align-end{right:15px}.driver-popover-arrow-side-left.driver-popover-arrow-align-center,.driver-popover-arrow-side-right.driver-popover-arrow-align-center{top:50%;margin-top:-5px}.driver-popover-arrow-side-top.driver-popover-arrow-align-center,.driver-popover-arrow-side-bottom.driver-popover-arrow-align-center{left:50%;margin-left:-5px}.driver-popover-arrow-none{display:none}</style></head>
+<body data-new-gr-c-s-check-loaded="14.1283.0" data-gr-ext-installed="">
+
+<!-- ══ PASSWORD SCREEN ══ -->
+<div id="pw-screen">
+  <div class="pw-logo">⭐ What Number Comes Before?</div>
+  <div class="pw-school">Akili Learning · Grade 1</div>
+  <div class="pw-box">
+    <h2>🔒 Enter this lesson's password</h2>
+    <p>Ask your teacher or check the Akili Learning message for the password.</p>
+    <input id="pw-input" type="password" placeholder="••••••••" maxlength="20" autocomplete="off" onkeydown="if(event.key===&#39;Enter&#39;)checkPassword()" fdprocessedid="94tgsi">
+    <div id="pw-error">❌ Incorrect password — please try again</div>
+    <button id="pw-btn" onclick="checkPassword()" fdprocessedid="8yd8y4">▶ Unlock Lesson</button>
+  </div>
+  <div class="pw-footer">🏫 Akili Learning · Grade 1 Mathematics<br>© Akili Learning</div>
+</div>
+
+<div id="app">
+<div id="header">
+  <div style="flex:1">
+    <h1>⭐ What Number Comes Before?</h1>
+    <div id="progressWrap"><div id="progressBar"></div></div>
+  </div>
+  <div id="brand-badge">🏫 Akili Learning</div>
+  <button id="backBtn" class="ctrl-btn" onclick="goBack()" fdprocessedid="99vvow">⏮ Back</button>
+  <button id="pauseBtn" class="ctrl-btn" onclick="togglePause()" fdprocessedid="obj9tq">⏸ Pause</button>
+</div>
+
+<div id="mainContent">
+<div style="position:relative">
+<div id="numbyCard">
+  <div id="numbyWrap">
+  <!-- ══ MISS NUMBY — teal colour scheme, shorter neck, auburn→teal-tipped hair ══ -->
+  <svg id="numbySvg" viewBox="0 0 200 310" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+  <g id="numbyBody">
+    <!-- legs -->
+    <rect x="79" y="252" width="18" height="46" rx="9" fill="#F0A882"></rect>
+    <rect x="103" y="252" width="18" height="46" rx="9" fill="#F0A882"></rect>
+    <ellipse cx="88" cy="299" rx="17" ry="8" fill="#00B4A6"></ellipse>
+    <ellipse cx="112" cy="299" rx="17" ry="8" fill="#00B4A6"></ellipse>
+    <ellipse cx="84" cy="295" rx="8" ry="3" fill="white" opacity=".22"></ellipse>
+    <ellipse cx="108" cy="295" rx="8" ry="3" fill="white" opacity=".22"></ellipse>
+    <!-- dress — teal -->
+    <path d="M 58 160 Q 50 208 54 258 L 146 258 Q 150 208 142 160 Z" fill="#00B4A6"></path>
+    <circle cx="80" cy="190" r="5" fill="white" opacity=".28"></circle>
+    <circle cx="102" cy="200" r="5" fill="white" opacity=".28"></circle>
+    <circle cx="122" cy="188" r="5" fill="white" opacity=".28"></circle>
+    <circle cx="90" cy="218" r="5" fill="white" opacity=".28"></circle>
+    <circle cx="114" cy="222" r="5" fill="white" opacity=".28"></circle>
+    <circle cx="70" cy="228" r="4" fill="white" opacity=".22"></circle>
+    <circle cx="132" cy="215" r="4" fill="white" opacity=".22"></circle>
+    <rect x="58" y="194" width="84" height="13" rx="6" fill="#007a72" opacity=".45"></rect>
+    <rect x="92" y="191" width="16" height="19" rx="4" fill="#FFD93D"></rect>
+    <circle cx="100" cy="200" r="4" fill="#00B4A6"></circle>
+    <path d="M 82 160 Q 100 175 118 160" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round"></path>
+    <!-- LEFT ARM -->
+    <g id="leftArm">
+      <rect x="35" y="158" width="23" height="56" rx="11.5" fill="#F0A882"></rect>
+      <circle cx="46.5" cy="218" r="15.5" fill="#F0A882"></circle>
+      <circle cx="46.5" cy="220" r="11" fill="#E49070"></circle>
+      <ellipse cx="41" cy="225" rx="4.2" ry="3" fill="#D07858"></ellipse>
+      <ellipse cx="52" cy="225" rx="4.2" ry="3" fill="#D07858"></ellipse>
+      <ellipse cx="46.5" cy="221" rx="3.2" ry="2.5" fill="#D07858"></ellipse>
+    </g>
+    <!-- RIGHT ARM -->
+    <g id="rightArm">
+      <rect x="142" y="158" width="23" height="56" rx="11.5" fill="#F0A882"></rect>
+      <circle cx="153.5" cy="218" r="15.5" fill="#F0A882"></circle>
+      <circle cx="153.5" cy="220" r="11" fill="#E49070"></circle>
+      <ellipse cx="148" cy="225" rx="4.2" ry="3" fill="#D07858"></ellipse>
+      <ellipse cx="159" cy="225" rx="4.2" ry="3" fill="#D07858"></ellipse>
+      <ellipse cx="153.5" cy="221" rx="3.2" ry="2.5" fill="#D07858"></ellipse>
+    </g>
+
+    <!-- ══ NECK — shorter rectangle ══ -->
+    <rect x="84" y="142" width="32" height="22" fill="#F5B98E"></rect>
+
+    <!-- ══ HEAD ══ -->
+    <g id="numbyHead">
+      <!-- hair back — dark teal-brown -->
+      <ellipse cx="100" cy="82" rx="54" ry="60" fill="#1A3A3A"></ellipse>
+      <!-- face -->
+      <ellipse cx="100" cy="90" rx="47" ry="53" fill="#F5B98E"></ellipse>
+      <!-- hair front with teal tips -->
+      <path d="M 54 60 Q 58 36 100 30 Q 142 36 146 60 Q 150 80 146 96" fill="#1A3A3A"></path>
+      <path d="M 54 60 Q 50 80 54 98" fill="#1A3A3A"></path>
+      <!-- teal highlight on hair -->
+      <path d="M 56 90 Q 50 110 54 128" stroke="#1A3A3A" stroke-width="8" fill="none" stroke-linecap="round"></path>
+      <path d="M 144 90 Q 150 110 146 128" stroke="#1A3A3A" stroke-width="8" fill="none" stroke-linecap="round"></path>
+      <!-- teal streaks in hair -->
+      <path d="M 60 44 Q 64 60 62 78" stroke="#00B4A6" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".75"></path>
+      <path d="M 140 44 Q 136 60 138 78" stroke="#00B4A6" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".75"></path>
+      <path d="M 74 28 Q 78 42 76 58" stroke="#3D9BE9" stroke-width="3" fill="none" stroke-linecap="round" opacity=".65"></path>
+      <!-- ponytail -->
+      <ellipse cx="100" cy="25" rx="16" ry="10" fill="#00B4A6"></ellipse>
+      <ellipse cx="100" cy="24" rx="10" ry="6" fill="#3D9BE9"></ellipse>
+      <path d="M 88 24 Q 100 8 112 24" stroke="#1A3A3A" stroke-width="10" fill="none" stroke-linecap="round"></path>
+      <!-- ears -->
+      <ellipse cx="53" cy="94" rx="11" ry="14" fill="#F5B98E"></ellipse>
+      <ellipse cx="53" cy="94" rx="6.5" ry="8.5" fill="#E0926A" opacity=".4"></ellipse>
+      <ellipse cx="147" cy="94" rx="11" ry="14" fill="#F5B98E"></ellipse>
+      <ellipse cx="147" cy="94" rx="6.5" ry="8.5" fill="#E0926A" opacity=".4"></ellipse>
+      <!-- teal earrings -->
+      <circle cx="53" cy="106" r="5" fill="#00B4A6"></circle>
+      <circle cx="53" cy="106" r="2.8" fill="#3D9BE9"></circle>
+      <circle cx="147" cy="106" r="5" fill="#00B4A6"></circle>
+      <circle cx="147" cy="106" r="2.8" fill="#3D9BE9"></circle>
+      <!-- eyebrows -->
+      <g id="browL"><path d="M 68 68 Q 79 61 90 65" stroke="#1A3A3A" stroke-width="3.2" fill="none" stroke-linecap="round"></path></g>
+      <g id="browR"><path d="M 110 65 Q 121 61 132 68" stroke="#1A3A3A" stroke-width="3.2" fill="none" stroke-linecap="round"></path></g>
+      <!-- eye whites -->
+      <ellipse cx="79" cy="82" rx="13" ry="14" fill="white"></ellipse>
+      <ellipse cx="121" cy="82" rx="13" ry="14" fill="white"></ellipse>
+      <!-- irises — teal-brown -->
+      <circle cx="79" cy="83" r="9" fill="#2A5A5A"></circle>
+      <circle cx="121" cy="83" r="9" fill="#2A5A5A"></circle>
+      <!-- pupils -->
+      <circle cx="79" cy="83" r="5.5" fill="#0A1A1A"></circle>
+      <circle cx="121" cy="83" r="5.5" fill="#0A1A1A"></circle>
+      <!-- shine -->
+      <circle cx="82" cy="80" r="3" fill="white"></circle>
+      <circle cx="124" cy="80" r="3" fill="white"></circle>
+      <circle cx="76" cy="87" r="1.5" fill="white" opacity=".6"></circle>
+      <circle cx="118" cy="87" r="1.5" fill="white" opacity=".6"></circle>
+      <!-- lashes -->
+      <path d="M 67 73 Q 79 65 91 73" stroke="#0A1A1A" stroke-width="3" fill="none" stroke-linecap="round"></path>
+      <path d="M 109 73 Q 121 65 133 73" stroke="#0A1A1A" stroke-width="3" fill="none" stroke-linecap="round"></path>
+      <line x1="68" y1="73" x2="64" y2="67" stroke="#0A1A1A" stroke-width="1.8" stroke-linecap="round"></line>
+      <line x1="74" y1="69" x2="72" y2="63" stroke="#0A1A1A" stroke-width="1.8" stroke-linecap="round"></line>
+      <line x1="110" y1="69" x2="108" y2="63" stroke="#0A1A1A" stroke-width="1.8" stroke-linecap="round"></line>
+      <line x1="132" y1="73" x2="136" y2="67" stroke="#0A1A1A" stroke-width="1.8" stroke-linecap="round"></line>
+      <!-- eyelids -->
+      <ellipse id="eyeLidL" cx="79" cy="82" rx="13" ry="14" fill="#F5B98E" style="transform:scaleY(0);transform-box:fill-box;transform-origin:center top"></ellipse>
+      <ellipse id="eyeLidR" cx="121" cy="82" rx="13" ry="14" fill="#F5B98E" style="transform:scaleY(0);transform-box:fill-box;transform-origin:center top"></ellipse>
+      <!-- nose -->
+      <ellipse cx="100" cy="104" rx="6.5" ry="4.5" fill="#E8956A"></ellipse>
+      <circle cx="96" cy="107" r="2.8" fill="#C87050" opacity=".4"></circle>
+      <circle cx="104" cy="107" r="2.8" fill="#C87050" opacity=".4"></circle>
+      <!-- cheeks -->
+      <ellipse cx="64" cy="108" rx="13" ry="8" fill="#FF9AA2" opacity=".38"></ellipse>
+      <ellipse cx="136" cy="108" rx="13" ry="8" fill="#FF9AA2" opacity=".38"></ellipse>
+      <!-- freckles -->
+      <circle cx="70" cy="103" r="2.2" fill="#D48060" opacity=".35"></circle>
+      <circle cx="75" cy="108" r="1.6" fill="#D48060" opacity=".3"></circle>
+      <circle cx="130" cy="103" r="2.2" fill="#D48060" opacity=".35"></circle>
+      <circle cx="125" cy="108" r="1.6" fill="#D48060" opacity=".3"></circle>
+      <!-- MOUTH closed -->
+      <path id="mouthClosed" d="M 78 122 Q 100 138 122 122" stroke="#C06040" stroke-width="3.2" fill="none" stroke-linecap="round"></path>
+      <path id="teethClosed" d="M 81 124 Q 100 136 119 124" stroke="white" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"></path>
+      <!-- MOUTH open -->
+      <g id="mouthOpen">
+        <path d="M 78 122 Q 100 142 122 122" stroke="#C06040" stroke-width="2.5" fill="#8B3010" stroke-linecap="round"></path>
+        <ellipse cx="100" cy="130" rx="16" ry="9" fill="#7A2800"></ellipse>
+        <path d="M 81 124 Q 100 130 119 124" stroke="white" stroke-width="6" fill="none" stroke-linecap="round" opacity=".85"></path>
+        <ellipse cx="100" cy="137" rx="8" ry="4" fill="#FF8FA3" opacity=".8"></ellipse>
+      </g>
+    </g>
+  </g>
+  </svg>
+  <div id="bubbleOverlay"></div>
+  </div>
+  <div id="numbyName">Miss Numby</div>
+  <div id="numbyTitle">Grade 1 Maths</div>
+  <div id="headBanner">🧠 Put it in your head!</div>
+</div>
+</div>
+
+<div id="lessonPanel">
+  <div id="speechBubble">Getting ready… ⭐</div>
+  <div id="numberDisplay"></div>
+  <div id="parentNote"></div>
+</div>
+</div>
+
+<div id="activityPanel"></div>
+<div id="akili-fb-section"></div>
+
+</div><!-- /app -->
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   PASSWORD — BPCB04 — What Number Comes Before
+   Permanent password for this video.
+═══════════════════════════════════════════════════════ */
+const MONTHLY_PASSWORD = 'BPCB04';
+const MONTHS = ['January','February','March','April','May','June',
+                'July','August','September','October','November','December'];
+
+function checkPassword(){
+  const val = document.getElementById('pw-input').value.trim();
+  const err = document.getElementById('pw-error');
+  if(val === MONTHLY_PASSWORD){
+    if(window.speechSynthesis){
+      const u=new SpeechSynthesisUtterance(' ');u.volume=0;u.rate=2;
+      speechSynthesis.speak(u);
+    }
+    document.getElementById('pw-screen').classList.add('hidden');
+    err.style.display='none';
+    startLesson();
+  } else {
+    err.style.display='block';
+    const inp=document.getElementById('pw-input');
+    inp.value='';inp.classList.add('wrong');
+    setTimeout(()=>inp.classList.remove('wrong'),600);
+    inp.focus();
+  }
+}
+(function(){
+  const el=document.getElementById('month-label');
+  if(el) el.textContent=MONTHS[new Date().getMonth()]+' '+new Date().getFullYear();
+})();
+
+/* ══════════════ AUDIO ══════════════ */
+let actx=null;
+function initAudio(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();}
+
+function playBubble(){
+  initAudio();
+  for(let i=0;i<8;i++){
+    setTimeout(()=>{
+      const o=actx.createOscillator(),g=actx.createGain();
+      o.connect(g);g.connect(actx.destination);
+      const t=actx.currentTime;
+      o.frequency.setValueAtTime(900-i*75,t);
+      o.frequency.exponentialRampToValueAtTime(160,t+.38);
+      g.gain.setValueAtTime(.12,t);g.gain.exponentialRampToValueAtTime(.001,t+.38);
+      o.type='sine';o.start(t);o.stop(t+.39);
+    },i*210);
+  }
+  spawnBubbles();
+}
+function spawnBubbles(){
+  const ov=document.getElementById('bubbleOverlay');ov.innerHTML='';
+  const c=['#00B4A6','#3D9BE9','#FFD93D','#52C87A','#FF6B9D','#9B72CF'];
+  for(let i=0;i<18;i++){
+    const d=document.createElement('div');d.className='bubble-dot';
+    const sz=6+Math.random()*14;
+    d.style.cssText=`width:${sz}px;height:${sz}px;background:${c[i%c.length]};
+      left:${8+Math.random()*184}px;top:${40+Math.random()*120}px;
+      animation-delay:${Math.random()*.95}s;`;
+    ov.appendChild(d);
+  }
+  setTimeout(()=>{ov.innerHTML=''},3400);
+}
+function playCelebration(){
+  initAudio();
+  [523.25,659.25,783.99,1046.5].forEach((f,i)=>{
+    setTimeout(()=>{
+      const o=actx.createOscillator(),g=actx.createGain();
+      o.connect(g);g.connect(actx.destination);
+      const t=actx.currentTime;
+      o.frequency.value=f;o.type='triangle';
+      g.gain.setValueAtTime(.14,t);g.gain.exponentialRampToValueAtTime(.001,t+.55);
+      o.start(t);o.stop(t+.56);
+    },i*148);
+  });
+}
+function playRevealSound(){
+  initAudio();
+  const o=actx.createOscillator(),g=actx.createGain();
+  o.connect(g);g.connect(actx.destination);
+  const t=actx.currentTime;
+  o.frequency.setValueAtTime(420,t);
+  o.frequency.exponentialRampToValueAtTime(700,t+.42);
+  g.gain.setValueAtTime(.11,t);g.gain.exponentialRampToValueAtTime(.001,t+.46);
+  o.type='triangle';o.start(t);o.stop(t+.47);
+}
+
+/* ══════════════ LIP SYNC ══════════════ */
+let lipTimer=null,lipState=false;
+function startLipSync(){
+  stopLipSync();lipState=false;
+  lipTimer=setInterval(()=>{
+    lipState=!lipState;
+    document.getElementById('mouthOpen').style.display  = lipState?'block':'none';
+    document.getElementById('mouthClosed').style.display= lipState?'none':'block';
+    document.getElementById('teethClosed').style.display= lipState?'none':'block';
+  },130);
+}
+function stopLipSync(){
+  if(lipTimer){clearInterval(lipTimer);lipTimer=null;}
+  const mo=document.getElementById('mouthOpen');
+  const mc=document.getElementById('mouthClosed');
+  const mt=document.getElementById('teethClosed');
+  if(mo)mo.style.display='none';
+  if(mc)mc.style.display='block';
+  if(mt)mt.style.display='block';
+}
+
+/* ══════════════ SPEECH ══════════════ */
+let voices=[];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function loadVoices(){
+  for(let i=0;i<50;i++){
+    voices=speechSynthesis.getVoices();
+    if(voices.length>0)return;
+    await sleep(100);
+  }
+}
+if('speechSynthesis' in window){
+  speechSynthesis.addEventListener('voiceschanged',()=>{voices=speechSynthesis.getVoices();});
+}
+
+function speak(text, rate=0.78, pitch=1.28){
+  // Slightly slower rate (0.78) for EAL learners
+  return new Promise(resolve=>{
+    if(!text||!('speechSynthesis' in window)){setTimeout(resolve,600);return;}
+    const safetyMs=Math.max(4500, text.split(' ').length*680);
+    let done=false;
+    function finish(){if(done)return;done=true;clearTimeout(safety);stopLipSync();resolve();}
+    const safety=setTimeout(finish,safetyMs);
+    speechSynthesis.cancel();
+    setTimeout(()=>{
+      const u=new SpeechSynthesisUtterance(text);
+      u.rate=rate; u.pitch=pitch;
+      const want=['Samantha','Karen','Serena','Moira','Tessa','Victoria'];
+      u.voice=voices.find(v=>want.some(w=>v.name.includes(w)))
+             ||voices.find(v=>v.lang==='en-US')
+             ||voices.find(v=>v.lang.startsWith('en'))
+             ||voices[0]||null;
+      startLipSync();
+      u.onend=finish; u.onerror=finish;
+      speechSynthesis.speak(u);
+    },50);
+  });
+}
+
+/* ══════════════ PAUSE / PLAY ══════════════ */
+let isPaused=false;
+function updatePauseBtn(){
+  const b=document.getElementById('pauseBtn');
+  if(isPaused){b.textContent='▶ Play';b.classList.add('paused');}
+  else{b.textContent='⏸ Pause';b.classList.remove('paused');}
+}
+function togglePause(){
+  isPaused=!isPaused;updatePauseBtn();
+  if(isPaused){speechSynthesis.pause();stopLipSync();}
+  else{speechSynthesis.resume();}
+}
+async function waitIfPaused(ver){
+  while(isPaused&&lessonVer===ver)await sleep(120);
+}
+
+/* ══════════════ AVATAR ══════════════ */
+function setNumby(state){
+  const svg=document.getElementById('numbySvg');
+  if(svg) svg.className=state||'neutral';
+}
+function showHeadBanner(show){
+  document.getElementById('headBanner').style.display=show?'block':'none';
+}
+function setBubble(txt){
+  document.getElementById('speechBubble').textContent=txt;
+}
+function showNote(txt){
+  const n=document.getElementById('parentNote');
+  n.style.display='block'; n.innerHTML='👨‍👩‍👧 <strong>Mum or Dad:</strong> '+txt;
+}
+function hideNote(){
+  document.getElementById('parentNote').style.display='none';
+}
+function updateProgress(i){
+  document.getElementById('progressBar').style.width=Math.min(i/TOTAL*100,100)+'%';
+}
+
+/* Display helpers */
+function showDisplay(items){
+  // items: array of {type:'given'|'blank'|'arrow'|'answer', value, reveal}
+  const d=document.getElementById('numberDisplay');
+  d.innerHTML='';
+  items.forEach(it=>{
+    if(it.type==='arrow'){
+      const s=document.createElement('span');
+      s.className='before-arrow';s.textContent='◀';
+      d.appendChild(s);
+    } else if(it.type==='given'){
+      const c=document.createElement('div');
+      c.className='num-card given';c.textContent=it.value;
+      d.appendChild(c);
+    } else if(it.type==='blank'){
+      const c=document.createElement('div');
+      c.className='num-card blank';c.textContent='?';
+      d.appendChild(c);
+    } else if(it.type==='answer'){
+      const c=document.createElement('div');
+      c.className='num-card answer'+(it.reveal?' revealing':'');
+      c.textContent=it.value;
+      d.appendChild(c);
+    }
+  });
+}
+function clearDisplay(){
+  document.getElementById('numberDisplay').innerHTML='';
+}
+
+/* ══════════════ LESSON STEPS ══════════════ */
+const STEPS=[
+  // ── INTRO ──
+  {state:'waving',
+   text:'Hello! Welcome back, clever learner! 🌟',
+   speech:'Hello! Welcome back, clever learner!',
+   note:null},
+
+  {state:'neutral',
+   text:'We have learned what to do to find what number comes after another number.',
+   speech:'We have learned what to do... to find what number comes after another number.',
+   note:null},
+
+  {state:'excited',
+   text:'Today we learn what number comes BEFORE! ⭐',
+   speech:'Today... we are going to learn something new. We are going to find out... what number comes BEFORE another number!',
+   note:null},
+
+  {state:'point-talk',
+   text:'"Before" goes BACK one number.',
+   speech:'When we want to find the number that comes before... we count ONE number back.',
+   note:null},
+
+  {state:'point-head',bubble:true,
+   text:'🧠 "Before" and "Back" both start with the b-b-b sound!',
+   speech:'Listen carefully. "Before"... and "Back"... both start with the same sound. Can you hear it? Buh... Buh... B-B-Before! B-B-Back! Both words go backwards!',
+   note:null},
+
+  {state:'neutral',
+   text:'Always put the given number in your head first! 🧠',
+   speech:'Here is our secret strategy. Always... put the given number... in your head first. Then count ONE back.',
+   note:'Tap your child\'s head gently to show where the number goes!'},
+
+  // ── DEMO 1: ___ 4 ──
+  {state:'excited',
+   text:'Let us try! What comes BEFORE 4?',
+   speech:'Let us try together. What number... comes before... four?',
+   note:null},
+
+  {state:'neutral',display:[{type:'blank'},{type:'arrow'},{type:'given',value:4}],
+   text:'Box ___ ◀ 4   — the box is in FRONT of the number',
+   speech:'Look at the box. The empty box is in front... because the answer comes before the four.',
+   note:null},
+
+  {state:'point-head',bubble:true,
+   display:[{type:'blank'},{type:'arrow'},{type:'given',value:4}],
+   text:'Put FOUR in your head! 🧠',
+   speech:'Put... FOUR... in your head!',
+   note:null},
+
+  {state:'point-talk',
+   display:[{type:'blank'},{type:'arrow'},{type:'given',value:4}],
+   text:'Count ONE back from four... three!',
+   speech:'Now... count ONE back from four. Four... three! The number that comes before four... is THREE.',
+   note:null},
+
+  {state:'celebrate',
+   display:[{type:'answer',value:3,reveal:true},{type:'arrow'},{type:'given',value:4}],
+   text:'THREE comes before four! ✅',
+   speech:'THREE comes before four! Well done!',
+   note:null},
+
+  // ── DEMO 2: ___ 2 ──
+  {state:'excited',
+   text:'Let us try another one! What comes BEFORE 2?',
+   speech:'Wonderful! Let us try another one. What number... comes before... two?',
+   note:null},
+
+  {state:'neutral',display:[{type:'blank'},{type:'arrow'},{type:'given',value:2}],
+   text:'Box ___ ◀ 2',
+   speech:'Here is our sum. The empty box comes first... because the answer comes before the two.',
+   note:null},
+
+  {state:'point-head',bubble:true,
+   display:[{type:'blank'},{type:'arrow'},{type:'given',value:2}],
+   text:'Put TWO in your head! 🧠',
+   speech:'Put... TWO... in your head!',
+   note:null},
+
+  {state:'point-talk',
+   display:[{type:'blank'},{type:'arrow'},{type:'given',value:2}],
+   text:'Count ONE back from two... one!',
+   speech:'Count ONE back from two. Two... one! The number that comes before two... is ONE.',
+   note:null},
+
+  {state:'celebrate',
+   display:[{type:'answer',value:1,reveal:true},{type:'arrow'},{type:'given',value:2}],
+   text:'ONE comes before two! ✅',
+   speech:'ONE comes before two! You are doing so well!',
+   note:null},
+
+  // ── TRANSITION TO ACTIVITY ──
+  {state:'excited',
+   text:'Now it is YOUR turn! 🎯',
+   speech:'Now it is YOUR turn! Remember our strategy. Put the number in your head... then count ONE back. Mummy or Daddy will help you.',
+   note:'Please help your child use the strategy — put the given number in their head, then count back one to find the answer.'},
+
+  {type:'activity'},
+  {type:'end'}
+];
+
+const TOTAL=STEPS.filter(s=>!s.type||s.type==='scene').length;
+let currentStep=0, lessonVer=0, actResolve=null;
+
+function goBack(){
+  initAudio();lessonVer++;
+  speechSynthesis.cancel();stopLipSync();
+  if(actResolve){actResolve('__abort__');actResolve=null;}
+  if(isPaused){isPaused=false;updatePauseBtn();}
+  showHeadBanner(false);hideNote();clearDisplay();
+  document.getElementById('activityPanel').style.display='none';
+  document.getElementById('lessonPanel').style.display='block';
+  let target=Math.max(0,currentStep-1);
+  while(target>0&&STEPS[target].type==='activity')target--;
+  currentStep=target;
+  setTimeout(()=>runLesson(lessonVer),100);
+}
+
+/* ══════════════ LESSON RUNNER ══════════════ */
+async function runLesson(ver){
+  for(let i=currentStep;i<STEPS.length;i++){
+    if(lessonVer!==ver)return;
+    currentStep=i; updateProgress(i);
+    const s=STEPS[i];
+    if(s.type==='activity'){
+      const res=await runActivity(ver);
+      if(res==='__abort__'||lessonVer!==ver)return;
+    } else if(s.type==='end'){
+      updateProgress(TOTAL);
+      await sleep(700);
+      akiliInitFeedback();
+      return;
+    } else {
+      await runScene(s,ver);
+    }
+    if(lessonVer!==ver)return;
+    await sleep(420);
+  }
+}
+
+async function runScene(s,ver){
+  if(lessonVer!==ver)return;
+  await waitIfPaused(ver);
+  if(lessonVer!==ver)return;
+
+  setNumby(s.state||'neutral');
+  setBubble(s.text||'');
+  if(s.note)showNote(s.note); else hideNote();
+
+  if(s.display) showDisplay(s.display);
+  else clearDisplay();
+
+  if(s.bubble){
+    showHeadBanner(true);
+    playBubble();
+    await sleep(1800);
+  } else {
+    showHeadBanner(false);
+  }
+
+  if(s.state==='celebrate') playCelebration();
+
+  await waitIfPaused(ver);
+  if(lessonVer!==ver)return;
+  await speak(s.speech||s.text);
+  showHeadBanner(false);
+  await sleep(320);
+}
+
+/* ══════════════ ACTIVITY ══════════════ */
+// ___ 1,  ___ 8,  ___ 3,  ___ 5
+const ACT_ITEMS=[
+  {given:1, answer:0},
+  {given:8, answer:7},
+  {given:3, answer:2},
+  {given:5, answer:4},
+];
+
+async function runActivity(ver){
+  document.getElementById('lessonPanel').style.display='none';
+  const ap=document.getElementById('activityPanel');
+  ap.style.display='block';
+
+  ap.innerHTML=`
+    <div class="act-title">⭐ Your Turn! What comes before?</div>
+    <div class="act-grid" id="actGrid"></div>
+    <button class="check-btn" id="checkBtn">✓ Check My Answers!</button>
+    <div class="act-parent-note">
+      👨‍👩‍👧 <strong>Mum or Dad:</strong> Please help your child — put the given number in their head,
+      then count back ONE to find the number that comes before. Encourage them to try again if they need to.
+    </div>`;
+
+  const grid=document.getElementById('actGrid');
+  ACT_ITEMS.forEach((item,idx)=>{
+    const box=document.createElement('div');
+    box.className='act-box';
+    box.innerHTML=`
+      <div class="act-row">
+        <input type="number" class="act-input" id="ai_${idx}"
+               data-ans="${item.answer}" min="0" max="9"
+               placeholder="?" inputmode="numeric" pattern="[0-9]*">
+        <span class="act-arrow">◀</span>
+        <div class="act-num">${item.given}</div>
+      </div>
+      <div class="act-hint" id="hint_${idx}">🧠 Put ${item.given} in your head — count back one!</div>`;
+    grid.appendChild(box);
+  });
+
+  setNumby('neutral');
+  setBubble('Put each number in your head and count back one! Mummy or Daddy will help you.');
+  showNote('Please help your child use the strategy — put the number in their head, then count back one.');
+  hideNote();
+
+  document.getElementById('checkBtn').onclick=()=>checkAnswers(ver);
+
+  await new Promise(r=>{actResolve=r;});
+  actResolve=null;
+
+  ap.style.display='none';
+  document.getElementById('lessonPanel').style.display='block';
+  clearDisplay();
+  return 'done';
+}
+
+let solvedCount=0;
+function checkAnswers(ver){
+  const inputs=document.querySelectorAll('.act-input');
+  let allCorrect=true;
+
+  inputs.forEach((inp,idx)=>{
+    const val=parseInt(inp.value);
+    const ans=parseInt(inp.dataset.ans);
+    const hint=document.getElementById('hint_'+idx);
+
+    if(isNaN(val)||inp.value.trim()===''){
+      allCorrect=false;
+      hint.textContent='Please type a number first!';
+      hint.style.color='#E74C3C';
+      return;
+    }
+    if(val===ans){
+      inp.classList.remove('wrong');inp.classList.add('correct');inp.disabled=true;
+      hint.textContent='✅ Correct! Well done!';hint.style.color='#1a6a38';
+    } else {
+      allCorrect=false;
+      inp.classList.remove('correct');inp.classList.add('wrong');
+      hint.textContent=`Not quite! Put ${ACT_ITEMS[idx].given} in your head and count back one.`;
+      hint.style.color='#E74C3C';
+      setTimeout(()=>{inp.classList.remove('wrong');inp.value='';},900);
+    }
+  });
+
+  if(allCorrect){
+    playCelebration();
+    confetti();
+    setNumby('celebrate');
+    setBubble('🎉 Amazing! All correct! You are SO clever!');
+    speak('Wonderful! All correct! I am SO proud of you! You know exactly what comes before a number! Give yourself a big clap!');
+    setTimeout(()=>{if(actResolve)actResolve('done');},3200);
+  } else {
+    setNumby('neutral');
+    setBubble('Not quite right — ask Mum or Dad to help you count back! 💪');
+    speak('Not quite right. Ask Mum or Dad to help you. Put the number in your head... then count back ONE. You can do it!');
+  }
+}
+
+/* ══════════════ CONFETTI ══════════════ */
+function confetti(){
+  const cols=['#00B4A6','#3D9BE9','#FFD93D','#52C87A','#FF6B9D','#9B72CF'];
+  const wrap=document.createElement('div');wrap.className='confetti-wrap';
+  document.body.appendChild(wrap);
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');p.className='cp';
+    p.style.cssText=`left:${Math.random()*100}%;top:-24px;
+      background:${cols[i%cols.length]};
+      width:${7+Math.random()*10}px;height:${7+Math.random()*10}px;
+      border-radius:${Math.random()>.5?'50%':'3px'};
+      animation-delay:${Math.random()*1.6}s;
+      animation-duration:${2.2+Math.random()*1.5}s;`;
+    wrap.appendChild(p);
+  }
+  setTimeout(()=>wrap.remove(),5500);
+}
+
+/* ══════════════ FEEDBACK — Opens the Akili Learning Google Form ══════════════ */
+const FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSemC5qB2ZsXff2tgfoZMYzE0MfcZwiUQNfiY0gveCGDHvD_RA/viewform";
+
+function akiliInitFeedback(){
+  const el=document.getElementById('akili-fb-section');
+  if(!el)return;
+
+  el.innerHTML=`
+    <h2>📋 Please Complete the Feedback Form</h2>
+    <p class="asub">Akili Learning · Grade 1 · What Number Comes Before</p>
+
+    <p style="text-align:center;font-weight:700;color:#5D4037;font-size:14px;line-height:1.6;margin:16px auto;max-width:420px;">
+      Your feedback helps us improve Akili Learning for your child.<br>
+      The form takes about 1 minute to complete.
+    </p>
+    <p style="text-align:center;font-weight:700;color:#1565C0;font-size:13px;margin-bottom:8px;">
+      📝 Please remember to include:
+    </p>
+    <ul style="text-align:left;font-weight:700;color:#5D4037;font-size:13px;line-height:1.8;max-width:300px;margin:0 auto 16px;padding-left:20px;">
+      <li>Your child's name &amp; grade</li>
+      <li>Your name as the parent</li>
+      <li>Today's score from this lesson</li>
+    </ul>
+
+    <div class="afg">
+      <label>💡 Reminder for Mum and Dad</label>
+      <div style="background:#E8FFFB;border-left:4px solid #00B4A6;border-radius:10px;padding:12px 14px;font-size:.9em;color:#004a44;font-weight:700;line-height:1.6;">
+        Please do <strong>regular revision</strong> of both concepts — what comes <em>before</em> a number AND what comes <em>after</em> a number. Use everyday objects like stairs, beads or buttons. Say a number and ask your child what comes before it and after it. Daily practice makes a big difference! 🌟
+      </div>
+    </div>
+
+    <button class="afsub-btn" onclick="akiliSubmitFeedback()">📋 Open Feedback Form</button>
+    <p style="text-align:center;font-weight:700;color:#888;font-size:11px;margin-top:12px;">
+      The form opens in a new tab in your browser
+    </p>`;
+
+  el.style.display='block';
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),350);
+
+  // Also speak closing reminder
+  setNumby('waving');
+  setBubble('You did it! Please remember to practise with Mum and Dad every day! 🌟');
+  speak('You did it! You are a superstar! And to Mum and Dad — please remember to practise this with your child every day. Ask them what comes before a number AND what comes after. Regular revision makes all the difference. Well done everyone!');
+}
+
+function akiliSubmitFeedback(){
+  window.open(FEEDBACK_FORM_URL,'_blank');
+}
+
+/* ══════════════ START ══════════════ */
+async function startLesson(){
+  setBubble('Getting ready… ⭐');
+  initAudio();
+  await loadVoices();
+  await sleep(300);
+  runLesson(lessonVer);
+}
+</script>
+
+
+<div id="screenity-ui"><div class="screenity-shadow-dom"><div><div class="screenity-scrollbar"></div><div class="screenity-scrollbar"></div></div><style type="text/css">
+			#screenity-ui, #screenity-ui div {
+				background-color: unset;
+				padding: unset;
+				width: unset;
+				box-shadow: unset;
+				display: unset;
+				margin: unset;
+				border-radius: unset;
+			}
+			.screenity-outline {
+				position: absolute;
+				z-index: 99999999999;
+				border: 2px solid #3080F8;
+				outline-offset: -2px;
+				pointer-events: none;
+				border-radius: 5px!important;
+			}
+		.screenity-blur {
+			filter: blur(10px)!important;
+		}
+			.screenity-shadow-dom * {
+				transition: unset;
+			}
+			.screenity-shadow-dom .TooltipContent {
+  border-radius: 30px!important;
+	background-color: #29292F!important;
+  padding: 10px 15px!important;
+  font-size: 12px;
+	margin-bottom: 10px!important;
+	bottom: 100px;
+  line-height: 1;
+	font-family: 'Satoshi-Medium', sans-serif;
+	z-index: 99999999!important;
+  color: #FFF;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px!important;
+  user-select: none;
+	transition: opacity 0.3 ease-in-out;
+  will-change: transform, opacity;
+	animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.screenity-shadow-dom .hide-tooltip {
+	display: none!important;
+}
+
+.screenity-shadow-dom .tooltip-tall {
+	margin-bottom: 20px;
+}
+
+.screenity-shadow-dom .tooltip-small {
+	margin-bottom: 5px;
+}
+
+.screenity-shadow-dom .TooltipContent[data-state='delayed-open'][data-side='top'] {
+	animation-name: screenity-slideDownAndFade;
+}
+.screenity-shadow-dom .TooltipContent[data-state='delayed-open'][data-side='right'] {
+  animation-name: screenity-slideLeftAndFade;
+}
+.screenity-shadow-dom.TooltipContent[data-state='delayed-open'][data-side='bottom'] {
+  animation-name: screenity-slideUpAndFade;
+}
+.screenity-shadow-dom.TooltipContent[data-state='delayed-open'][data-side='left'] {
+  animation-name: screenity-slideRightAndFade;
+}
+
+@keyframes screenity-slideUpAndFade {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes screenity-slideRightAndFade {
+  from { opacity: 0; transform: translateX(-2px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes screenity-slideDownAndFade {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes screenity-slideLeftAndFade {
+  from { opacity: 0; transform: translateX(2px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+#screenity-ui [data-radix-popper-content-wrapper] { z-index: 999999999999!important; }
+
+.screenity-shadow-dom .CanvasContainer {
+	position: fixed;
+	pointer-events: all!important;
+	top: 0px!important;
+	left: 0px!important;
+	z-index: 99999999999!important;
+}
+.screenity-shadow-dom .canvas {
+	position: fixed;
+	top: 0px!important;
+	left: 0px!important;
+	z-index: 99999999999!important;
+	background: transparent!important;
+}
+.screenity-shadow-dom .canvas-container {
+	top: 0px!important;
+	left: 0px!important;
+	z-index: 99999999999;
+	position: fixed!important;
+	background: transparent!important;
+}
+
+.ScreenityDropdownMenuContent {
+	z-index: 99999999999!important;
+  min-width: 200px;
+  background-color: white;
+  margin-top: 4px;
+  margin-right: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 15px;
+  font-family: 'Satoshi-Medium', sans-serif;
+  color: #29292F;
+  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
+    0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+.ScreenityDropdownMenuContent[data-side="top"] {
+  animation-name: screenity-slideDownAndFade;
+}
+.ScreenityDropdownMenuContent[data-side="right"] {
+  animation-name: screenity-slideLeftAndFade;
+}
+.ScreenityDropdownMenuContent[data-side="bottom"] {
+  animation-name: screenity-slideUpAndFade;
+}
+.ScreenityDropdownMenuContent[data-side="left"] {
+  animation-name: screenity-slideRightAndFade;
+}
+.ScreenityItemIndicator {
+  position: absolute;
+  right: 12px;
+  width: 18px;
+  height: 18px;
+  background: #3080F8;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ScreenityDropdownMenuItem,
+.ScreenityDropdownMenuRadioItem {
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 5px;
+  position: relative;
+  padding-left: 22px;
+  padding-right: 22px;
+  user-select: none;
+  outline: none;
+}
+.ScreenityDropdownMenuItem:hover {
+    background-color: #F6F7FB !important;
+    cursor: pointer;
+}
+.ScreenityDropdownMenuItem[data-disabled] {
+  color: #6E7684 !important;
+  cursor: not-allowed;
+  background-color: #F6F7FB !important;
+}
+
+</style></div></div><span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
